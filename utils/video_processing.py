@@ -5,28 +5,27 @@ from keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input
 expression_model = MobileNetV2(weights='imagenet', include_top=False, input_shape=(48, 48, 3), pooling='avg')
 
 
+import cv2
+
 def process_video(input_filepath, output_filepath):
-    # Open the input video file
     cap = cv2.VideoCapture(input_filepath)
-
-    # Initialize video writer to save the processed video
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Define the codec
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    out = cv2.VideoWriter(output_filepath, fourcc, fps, (width, height))
-
-    # Process each frame and write it to the output video
-    while True:
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(output_filepath, fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
+    
+    while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             break
-        processed_frame = process_frame(frame)  # Assuming you have a function to process each frame
+        
+        # Process the frame (replace this with your processing logic)
+        processed_frame = frame
+        
+        # Write the processed frame to the output video
         out.write(processed_frame)
-
-    # Release video writer and capture objects
-    out.release()
+    
     cap.release()
+    out.release()
+
 
 
 def process_frame(frame):
