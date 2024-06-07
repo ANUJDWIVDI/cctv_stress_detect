@@ -17,8 +17,8 @@ def process_video(input_filepath, output_filepath):
         if not ret:
             break
         
-        # Process the frame (replace this with your processing logic)
-        processed_frame = frame
+        
+        processed_frame, emotion_data = process_frame(frame)
         
         # Write the processed frame to the output video
         out.write(processed_frame)
