@@ -22,13 +22,20 @@ def upload_video():
         
         video_processing.process_video(filepath, processed_filepath)
         
-        return redirect(url_for('process_video', filename=processed_filename))
+        return redirect(url_for('result'))
     
     return redirect(request.url)
 
 @app.route('/process/<filename>')
 def process_video(filename):
     return render_template('play.html', filename=filename)
+
+@app.route('/result')
+def result():
+    processed_video_path = 'uploads/processed_video.mp4'
+    original_video_path = 'uploads/video.mp4'
+    analysis_file_path = 'uploads/processed_video.mp4.txt'
+    return render_template('result.html', processed_video=processed_video_path, original_video=original_video_path, analysis_file=analysis_file_path)
 
 if __name__ == '__main__':
     app.run(debug=True)
